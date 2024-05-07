@@ -21,7 +21,8 @@ class SimpleFormPlugin
         add_action('init', array($this, 'create_custom_post'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_bootstrap_css'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_bootstrap_js'));
-        add_shortcode('simple-form-shortcode',array($this,'load_shortcode'));
+        add_shortcode('simple-form-shortcode', array($this, 'load_shortcode'));
+        add_action('wp-footer', array($this, 'load_scripts'));
     }
 
     public function create_custom_post()
@@ -51,54 +52,70 @@ class SimpleFormPlugin
     {
         wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array(), '5.3.3', true);
     }
-    public function load_shortcode(){
-        ?>
-        <div class="d-flex justify-content-center align-items-center  vh-100"> 
+    public function load_shortcode()
+    {
+        ob_start();
+?>
+        <div class="d-flex justify-content-center align-items-center  vh-100">
 
-<form method="post" id="submitBtn"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" >
-<div class="card" style="width: 32rem;">
-  <div class="card-body">
-  <h3 class="card-title">Php Form</h3>
+            <form method="post" id="submitBtn" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="card" style="width: 32rem;">
+                    <div class="card-body">
+                        <h3 class="card-title">Php Form</h3>
 
-  <div class="mb-3">
-    <label for="exampleInputName" class="form-label">Name:</label>
+                        <div class="mb-3">
+                            <label for="exampleInputName" class="form-label">Name:</label>
 
-    <input type="text" name="name" class="form-control" id="exampleInputName" />
-  </div>
+                            <input type="text" name="name" class="form-control" id="exampleInputName" />
+                        </div>
 
-  <div class="mb-3">
-  <label for="exampleInputEmail" class="form-label">Email: </label>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail" class="form-label">Email: </label>
 
-    <input type="email" name="email" class="form-control" id="exampleInputEmail"/>
-  </div>
-  <div class="mb-3">
-  <label for="exampleInputPhone" class="form-label"> Phone Number:</label>
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPhone" class="form-label"> Phone Number:</label>
 
-   <input type="number" name="phone" class="form-control" id="exampleInputPhone" />
-  </div>
+                            <input type="number" name="phone" class="form-control" id="exampleInputPhone" />
+                        </div>
 
-  <div class="mb-3">
-  <label for="exampleInputAddress" class="form-label">  Address: </label>
+                        <div class="mb-3">
+                            <label for="exampleInputAddress" class="form-label"> Address: </label>
 
-  <input type="text" name="address" class="form-control" id="exampleInputAddress"/>
-  </div>
+                            <input type="text" name="address" class="form-control" id="exampleInputAddress" />
+                        </div>
 
-  <div class="mb-3">
-  <label for="exampleInputMessage" class="form-label">Message:</label>
+                        <div class="mb-3">
+                            <label for="exampleInputMessage" class="form-label">Message:</label>
 
-    <textarea name="message" rows="4" columns="10" class="form-control" id="exampleInputMessage"></textarea>
-  </div>
+                            <textarea name="message" rows="4" columns="10" class="form-control" id="exampleInputMessage"></textarea>
+                        </div>
 
-  <button type="submit" class="btn btn-primary w-100" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-primary w-100" name="submit">Submit</button>
 
-  <!-- <input type="submit" name="submit" value="Submit"> -->
-</div>
-  </div>
-</form>
-</div>
-        <?php
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    <?php
+        return ob_get_clean();
     }
+    public function load_scripts()
+    {
 
+    ?>
+        <script>
+         jQuery(document).ready(function($){
+          $('submitBtn').submit(function(event){
+            alert('test');
+          })
+         });
+        </script>
+<?php
+
+    }
 }
 
 // Instantiate the plugin class
