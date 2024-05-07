@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Simple Form Plugin
  * Plugin URI: http://localhost/wordpress/2024/05/07/51/
@@ -21,7 +20,7 @@ class SimpleFormPlugin
         add_action('init', array($this, 'create_custom_post'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_bootstrap_css'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_bootstrap_js'));
-        add_shortcode('simple-form-shortcode', array($this, 'load_shortcode'));
+        add_shortcode('simple-form-plugin', array($this, 'load_shortcode'));
         add_action('wp-footer', array($this, 'load_scripts'));
     }
 
